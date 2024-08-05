@@ -1,5 +1,5 @@
 import React, {useEffect, useCallback} from 'react';
-import {View, FlatList, ActivityIndicator} from 'react-native';
+import {View, FlatList, ActivityIndicator, StyleSheet} from 'react-native';
 import {colors, positionHelpers} from '../../styles';
 import {useReduxDispatch, useReduxSelector} from '../../store/store';
 import {getUserAction} from '../../redux/UserRedux/UserAction';
@@ -39,7 +39,11 @@ const UsersScreen = () => {
 
   const renderFooter = useCallback(() => {
     if (loading && page < totalPages) {
-      return <ActivityIndicator size="small" />;
+      return (
+        <View style={cs.p20}>
+          <ActivityIndicator size="small" />
+        </View>
+      );
     }
     return null;
   }, [loading, page, totalPages]);
@@ -76,5 +80,11 @@ const UsersScreen = () => {
     </View>
   );
 };
+
+const cs = StyleSheet.create({
+  p20: {
+    padding: 20,
+  },
+});
 
 export default UsersScreen;
