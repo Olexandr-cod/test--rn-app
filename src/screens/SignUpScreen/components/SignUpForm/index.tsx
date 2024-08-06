@@ -9,6 +9,7 @@ import {cs} from '../../styles';
 interface SignUpFormProps {
   error: any;
   error500: any;
+  device: any;
   control: Control<FieldValues, any>;
   positions: PositionItem[];
   photo: any;
@@ -18,6 +19,7 @@ interface SignUpFormProps {
 
 const SignUpForm = ({
   control,
+  device,
   error,
   error500,
   positions,
@@ -141,6 +143,11 @@ const SignUpForm = ({
         <BodyText>{'Upload your photo'}</BodyText>
         <Button title="Upload" onPress={selectPhoto} />
       </View>
+      {!device && (
+        // <View style={positionHelpers.fillCenter}>
+        <BodyText>Camera not available</BodyText>
+        // </View>
+      )}
       {photo && <Image source={{uri: photo.uri}} style={cs.photoStyle} />}
       {error && error.photo && (
         <BodyText style={cs.errorText}>{error.photo[0]}</BodyText>

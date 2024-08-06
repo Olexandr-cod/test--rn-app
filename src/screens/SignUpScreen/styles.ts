@@ -39,7 +39,8 @@ export const cs = StyleSheet.create({
     marginBottom: 10,
   },
   camera: {
-    display: 'none',
+    width: '100%',
+    height: '80%',
   },
   ml10: {
     marginLeft: 10,

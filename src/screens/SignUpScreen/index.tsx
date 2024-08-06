@@ -2,7 +2,12 @@ import React, {useEffect, useRef, useState} from 'react';
 import {View, Alert, ActionSheetIOS, Platform} from 'react-native';
 import {useForm} from 'react-hook-form';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {RNCamera} from 'react-native-camera';
+import {
+  Camera,
+  // CameraDevice,
+  useCameraDevices,
+  // useFrameProcessor,
+} from 'react-native-vision-camera';
 import {useReduxDispatch, useReduxSelector} from '../../store/store';
 import {getTokenAction, signUpAction} from '../../redux/AuthRedux/AuthAction';
 import {getPositionsAction} from '../../redux/PositionRedux/PositionAction';
@@ -10,7 +15,6 @@ import FormContainer from '../../components/Layout/FormContainer';
 import SignUpForm from './components/SignUpForm';
 import {cs} from './styles';
 import {useNavigation} from '@react-navigation/native';
-import {positionHelpers} from '../../styles';
 
 interface FormData {
   name?: string;
@@ -35,23 +39,43 @@ const SignUpScreen = () => {
     },
   });
 
-  const cameraRef = useRef<RNCamera>(null);
+  const cameraRef = useRef<Camera>(null);
+  const devices = useCameraDevices();
+  const device = devices.back;
   const [photo, setPhoto] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    (async () => {
+      const status = await Camera.requestCameraPermission();
+      if (status !== 'authorized') {
+        Alert.alert(
+          'Camera Permission',
+          'Camera access is required to take photos.',
+        );
+      }
+      setLoading(false);
+    })();
+
     dispatch(getPositionsAction());
     dispatch(getTokenAction());
   }, [dispatch]);
 
-  const takePicture = async () => {
+  const takePhotoCallback = async () => {
     if (cameraRef.current) {
-      const options = {quality: 0.5, base64: true};
-      const data = await cameraRef.current.takePictureAsync(options);
-      setPhoto(data);
+      try {
+        const photo = await cameraRef.current.takePhoto({
+          qualityPrioritization: 'balanced',
+          skipMetadata: true,
+        });
+        setPhoto(photo);
+      } catch (error) {
+        console.error('Failed to take photo:', error);
+        Alert.alert('Error', 'Failed to take photo.');
+      }
     }
   };
 
-  console.log('error500', error500);
   const selectPhoto = () => {
     if (Platform.OS === 'ios') {
       ActionSheetIOS.showActionSheetWithOptions(
@@ -61,7 +85,7 @@ const SignUpScreen = () => {
         },
         buttonIndex => {
           if (buttonIndex === 1) {
-            takePicture();
+            takePhotoCallback();
           } else if (buttonIndex === 2) {
             launchImageLibrary({mediaType: 'photo'}, response => {
               if (response.assets) {
@@ -79,7 +103,7 @@ const SignUpScreen = () => {
         },
         {
           text: 'Camera',
-          onPress: takePicture,
+          onPress: takePhotoCallback,
         },
         {
           text: 'Gallery',
@@ -112,6 +136,7 @@ const SignUpScreen = () => {
         <>
           <SignUpForm
             control={control}
+            device={device}
             error={error}
             error500={error500}
             positions={positions}
@@ -119,12 +144,15 @@ const SignUpScreen = () => {
             selectPhoto={selectPhoto}
             onPress={handleSubmit(onSubmit)}
           />
-          <RNCamera
-            ref={cameraRef}
-            style={[positionHelpers.fill, cs.camera]}
-            type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.on}
-          />
+          {device && (
+            <Camera
+              ref={cameraRef}
+              style={cs.camera}
+              device={device}
+              isActive={true}
+              photoStabilizationMode="standard"
+            />
+          )}
         </>
       </FormContainer>
     </View>

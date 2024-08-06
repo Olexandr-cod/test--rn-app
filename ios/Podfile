@@ -22,8 +22,8 @@ target 'testtaskApp' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
+  # pod 'react-native-vision-camera', :path => '../node_modules/react-native-vision-camera'
   target 'testtaskAppTests' do
     inherit! :complete
     # Pods for testing

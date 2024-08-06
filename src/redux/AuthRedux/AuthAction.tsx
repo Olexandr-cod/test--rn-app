@@ -39,7 +39,6 @@ export const signUpAction = createAsyncThunk<any, any>(
       };
       const response = await axios.post('/users', formData, config);
 
-      console.log('res--->', JSON.stringify(response?.data, null, 2));
       if (response && response?.data && response?.data?.success === true) {
         thunkAPI.dispatch(resetDataUsers());
         thunkAPI.dispatch(getUserAction({page: 1, count: 5}));
@@ -69,14 +68,6 @@ export const signUpAction = createAsyncThunk<any, any>(
           return thunkAPI.rejectWithValue({
             message: 'Internal server error. Please try again later.',
           });
-          // navigation.navigate(DASHBOARD_ROUTES.STATUS_SCREEN, {
-          //   icon: 'reject',
-          //   title: 'That email is already registered',
-          //   titleButton: 'Try again',
-          // });
-          // return thunkAPI.rejectWithValue({
-          //   message: 'Conflict error. Please check your data and try again.',
-          // });
         }
         if (error.response && error.response.data.fails) {
           return thunkAPI.rejectWithValue(error.response.data.fails);
