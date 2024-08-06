@@ -5,13 +5,18 @@ import {AuthState} from './types';
 const initialState: AuthState = {
   loading: false,
   token: '',
+  error500: null,
   error: null,
 };
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setError500: (state, action) => {
+      state.error500 = action?.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       //sign up
@@ -43,6 +48,6 @@ export const authSlice = createSlice({
   },
 });
 
-// export const {} = authSlice.actions;
+export const {setError500} = authSlice.actions;
 
 export default authSlice.reducer;

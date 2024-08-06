@@ -7,6 +7,7 @@ export const DASHBOARD_ROUTES = {
   USERS_SCREEN: 'Users_Screen',
   SIGNUP_SCREEN: 'Signup_Screen',
   STATUS_SCREEN: 'Status_Screen',
+  INTERNET_CHECK_SCREEN: 'Internet_Check_Screen',
 } as const;
 
 export type valueof<T> = T[keyof T];

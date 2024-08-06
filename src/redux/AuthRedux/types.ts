@@ -9,5 +9,6 @@ export interface LoginProps {
 export interface AuthState {
   loading: boolean;
   token: string;
+  error500: null | string | any;
   error: any;
 }

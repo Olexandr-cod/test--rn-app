@@ -8,6 +8,7 @@ import {cs} from '../../styles';
 
 interface SignUpFormProps {
   error: any;
+  error500: any;
   control: Control<FieldValues, any>;
   positions: PositionItem[];
   photo: any;
@@ -18,6 +19,7 @@ interface SignUpFormProps {
 const SignUpForm = ({
   control,
   error,
+  error500,
   positions,
   photo,
   selectPhoto,
@@ -142,6 +144,12 @@ const SignUpForm = ({
       {photo && <Image source={{uri: photo.uri}} style={cs.photoStyle} />}
       {error && error.photo && (
         <BodyText style={cs.errorText}>{error.photo[0]}</BodyText>
+      )}
+      {error500 && (
+        <BodyText
+          style={
+            cs.errorText
+          }>{`[AxiosError: Request failed with status code ${error500}]`}</BodyText>
       )}
       <View style={positionHelpers.alignCenter}>
         <TouchableOpacity style={cs.button} onPress={onPress}>

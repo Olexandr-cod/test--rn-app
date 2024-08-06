@@ -9,7 +9,6 @@ import {cs} from './styles';
 const StatusScreen = () => {
   const navigation = useNavigation<any>();
   const {params} = useRoute<any>();
-  console.log('params-->', params);
 
   const onPress = () => {
     if (params?.icon === 'reject') {

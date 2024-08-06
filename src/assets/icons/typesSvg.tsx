@@ -12,4 +12,5 @@ export type SvgIconsNames =
   | 'defaultCheckBox'
   | 'activeCheckBox'
   | 'success'
-  | 'reject';
+  | 'reject'
+  | 'netInfoIcon';

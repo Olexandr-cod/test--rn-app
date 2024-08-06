@@ -8317,6 +8317,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-camera@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "react-native-camera@npm:4.2.1"
+  dependencies:
+    prop-types: ^15.6.2
+  checksum: 0e84ce657774694d1cc49395c43a8f2caabc03df36aa77aacfb5c797ad8cfe0368f4807deccc54e82ff2b193e8c2d1ce7ad504eedf7a9fc4719b38e39958a804
+  languageName: node
+  linkType: hard
+
 "react-native-config@npm:^1.5.3":
   version: 1.5.3
   resolution: "react-native-config@npm:1.5.3"
@@ -9567,6 +9576,7 @@ __metadata:
     react: 18.2.0
     react-hook-form: ^7.52.2
     react-native: 0.74.4
+    react-native-camera: ^4.2.1
     react-native-config: ^1.5.3
     react-native-gesture-handler: ^2.18.1
     react-native-image-picker: ^7.1.2
